@@ -1,3 +1,9 @@
+pt-networking (0.2.0-0) stretch; urgency=low
+
+  * Fix compatibility with pt-os
+
+ -- Jorge Capona <jorge@pi-top.com>  Mon, 13 Apr 2020 15:26:06 -0400
+
 pt-networking (0.1.0-0) stretch; urgency=low
 
   * Initial release
