@@ -14,6 +14,7 @@ Depends: baobab,
  isc-dhcp-server,
 # 'ifconfig' command
  net-tools,
-Recommends:
+Breaks: pt-os (<< 2.0.0)
+Replaces: pt-os (<< 2.0.0)
 Description: pi-topOS networking package
  Manage pi-topOS DHCP server
