@@ -9,7 +9,7 @@ Homepage: https://pi-top.com/
 Package: pt-otg-eth
 Architecture: armhf
 # 'ip' command
-Depends:
+Depends: ${misc:Depends},
  iproute2,
  isc-dhcp-server,
 # 'ifconfig' command
