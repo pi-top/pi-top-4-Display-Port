@@ -2,5 +2,8 @@
 %:
 	dh $@
 
+override_dh_installinit:
+	dh_installinit --noscripts
+
 override_dh_installsystemd:
 	dh_installsystemd --name=pt-otg-dhcp-server
