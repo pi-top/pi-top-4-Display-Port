@@ -1,5 +1,6 @@
 [Unit]
 Description=USB-OTG DHCP server
+Documentation=https://knowledgebase.pi-top.com/knowledge
 After=remote-fs.target
 After=network-online.target
 After=nss-lookup.target
