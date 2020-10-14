@@ -1,3 +1,13 @@
+pt-otg-eth (1.0.0) stretch; urgency=low
+
+  * Remove unnecessary baobab dependency
+  * Upgrade package to compat level 12
+  * Rename package
+  * Move udev rules from pt-os-mods for virtual Ethernet device over
+  Pi 4's USB-OTG
+
+ -- Mike Roberts <mike@pi-top.com>  Wed, 14 Oct 2020 17:08:54 +0100
+
 pt-networking (0.2.0-0) stretch; urgency=low
 
   * Fix compatibility with pt-os

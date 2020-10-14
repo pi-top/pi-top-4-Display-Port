@@ -1,21 +1,25 @@
-Source: pt-networking
+Source: pt-otg-eth
 Section: utils
 Priority: optional
 Maintainer: pi-top <deb-maintainers@pi-top.com>
-Build-Depends: debhelper (>= 7)
-Standards-Version: 3.8.4
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.5.0
 Homepage: https://pi-top.com/
 
-Package: pt-networking
+Package: pt-otg-eth
 Architecture: armhf
-Depends: baobab,
 # 'ip' command
+Depends:
  iproute2,
  isc-dhcp-server,
 # 'ifconfig' command
- net-tools,
-# Avoid errors since dhcp server unit file was provided by pt-os in versions < 2.0
-Breaks: pt-os (<< 2.0.0)
-Replaces: pt-os (<< 2.0.0)
-Description: pi-topOS networking package
- Manage pi-topOS DHCP server
+ net-tools
+# Avoid errors since dhcp server unit file was provided by
+# pt-os in versions < 2.0
+# pt-networking in all versions
+Breaks: pt-os (<< 2.0.0), pt-networking
+Replaces: pt-os (<< 2.0.0), pt-networking
+Description: pi-top [4] USB Ethernet support
+ This package manages the DHCP server responsible for allowing
+ plug-and-play network connections (such as SSH and VNC) with
+ pi-top [4].

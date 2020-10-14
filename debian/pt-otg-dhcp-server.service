@@ -1,5 +1,5 @@
 [Unit]
-Description=pi-topOS DHCP server
+Description=USB-OTG DHCP server
 After=remote-fs.target
 After=network-online.target
 After=nss-lookup.target
@@ -14,8 +14,8 @@ KillMode=process
 GuessMainPID=no
 RemainAfterExit=yes
 SuccessExitStatus=5 6
-ExecStart=/usr/bin/pt-dhcp-server start
-ExecStop=/usr/bin/pt-dhcp-server stop
+ExecStart=/usr/lib/pt-otg-eth/pt-otg-dhcp-server start
+ExecStop=/usr/lib/pt-otg-eth/pt-otg-dhcp-server stop
 
 [Install]
 WantedBy=multi-user.target

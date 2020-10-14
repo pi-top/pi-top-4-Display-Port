@@ -3,11 +3,5 @@
 	dh $@ --with systemd
 
 
-override_dh_systemd_enable:
-	dh_systemd_enable --name=pt-dhcp-server
-
-override_dh_installinit:
-	dh_installinit --noscripts
-
-override_dh_systemd_start:
-	dh_systemd_start pt-dhcp-server
+override_dh_installsystemd:
+	dh_installsystemd --name=pt-otg-dhcp-server
