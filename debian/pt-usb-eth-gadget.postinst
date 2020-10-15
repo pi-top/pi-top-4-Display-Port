@@ -32,13 +32,16 @@ load_kernel_modules() {
 }
 
 case "$1" in
-    install)
-    remove_from_boot_config
-    remove_from_boot_cmdline
-    load_kernel_modules
+    configure)
+    [[ -z "${2}" ]] && \
+      (
+        remove_from_boot_config
+        remove_from_boot_cmdline
+        load_kernel_modules
+      )
     ;;
 
-    upgrade | abort-upgrade)
+    abort-upgrade | abort-remove | abort-deconfigure)
     ;;
 
 \
