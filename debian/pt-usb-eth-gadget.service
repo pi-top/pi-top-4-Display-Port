@@ -1,5 +1,5 @@
 [Unit]
-Description=USB-OTG DHCP server
+Description=pi-top [4] USB Ethernet Gadget Configuration
 Documentation=https://knowledgebase.pi-top.com/knowledge
 After=remote-fs.target
 After=network-online.target
@@ -15,8 +15,8 @@ KillMode=process
 GuessMainPID=no
 RemainAfterExit=yes
 SuccessExitStatus=5 6
-ExecStart=/usr/lib/pt-otg-eth/pt-otg-dhcp-server start
-ExecStop=/usr/lib/pt-otg-eth/pt-otg-dhcp-server stop
+ExecStart=/usr/lib/pt-usb-eth-gadget/pt-usb-eth-gadget-setup start
+ExecStop=/usr/lib/pt-usb-eth-gadget/pt-usb-eth-gadget-setup stop
 
 [Install]
 WantedBy=multi-user.target

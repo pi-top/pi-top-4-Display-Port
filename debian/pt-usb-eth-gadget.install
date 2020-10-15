@@ -1,0 +1,5 @@
+src/pt-usb-eth-gadget-config               /usr/lib/pt-usb-eth-gadget/
+src/g_ether.conf                                /etc/modprobe.d/
+src/10-dwc2.conf                                /usr/lib/modules-load.d/
+src/10-g_ether.conf                             /usr/lib/modules-load.d/
+src/90-ptusb0.rules                             /lib/udev/rules.d/

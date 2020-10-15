@@ -1,4 +1,4 @@
-pt-otg-eth (1.0.0) stretch; urgency=low
+pt-usb-eth-gadget (1.0.0) stretch; urgency=low
 
   * Remove unnecessary baobab dependency
   * Upgrade package to compat level 12

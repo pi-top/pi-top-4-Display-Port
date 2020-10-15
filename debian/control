@@ -1,4 +1,4 @@
-Source: pt-otg-eth
+Source: pt-usb-eth-gadget
 Section: utils
 Priority: optional
 Maintainer: pi-top <deb-maintainers@pi-top.com>
@@ -6,20 +6,27 @@ Build-Depends: debhelper-compat (= 12)
 Standards-Version: 4.5.0
 Homepage: https://pi-top.com/
 
-Package: pt-otg-eth
+Package: pt-usb-eth-gadget
 Architecture: armhf
 # 'ip' command
 Depends: ${misc:Depends},
  iproute2,
  isc-dhcp-server,
+# 'modprobe' command in postinst
+ kmod,
+# 'dtoverlay' command in postinst
+ libraspberrypi-bin,
 # 'ifconfig' command
- net-tools
+ net-tools,
+# dwc2 and g_ether kernel modules
+ raspberrypi-kernel,
 # Avoid errors since dhcp server unit file was provided by
 # pt-os in versions < 2.0
 # pt-networking in all versions
 Breaks: pt-os (<< 2.0.0), pt-networking
 Replaces: pt-os (<< 2.0.0), pt-networking
-Description: pi-top [4] USB Ethernet support
- This package manages the DHCP server responsible for allowing
- plug-and-play network connections (such as SSH and VNC) with
- pi-top [4].
+Description: pi-top [4] USB Ethernet Gadget Configuration
+ This package manages kernel modules, udev rules and system configuration
+ (such as a DHCP server) to allow plug-and-play network connections
+ (such as SSH and VNC) with a pi-top [4] via its USB-OTG connection from
+ the Raspberry Pi's USB-C port.
