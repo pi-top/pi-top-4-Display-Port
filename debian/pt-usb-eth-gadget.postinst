@@ -26,19 +26,22 @@ remove_from_boot_cmdline() {
     sed -i 's/ modules-load=dwc2,g_ether//1' /boot/cmdline.txt
 }
 
-load_kernel_modules() {
+reload_kernel_modules() {
+  modprobe -r dwc2
   modprobe dwc2
+  modprobe -r g_ether
   modprobe g_ether
+}
+
+remove_config_from_boot_partition() {
+  remove_from_boot_config
+  remove_from_boot_cmdline
 }
 
 case "$1" in
     configure)
-    [[ -z "${2}" ]] && \
-      (
-        remove_from_boot_config
-        remove_from_boot_cmdline
-        load_kernel_modules
-      )
+    [[ -z "${2}" ]] && remove_config_from_boot_partition
+    reload_kernel_modules
     ;;
 
     abort-upgrade | abort-remove | abort-deconfigure)
