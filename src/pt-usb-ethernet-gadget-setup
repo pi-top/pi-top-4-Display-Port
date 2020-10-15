@@ -97,7 +97,6 @@ main() {
 	delete_dhcp_pid_if_exists
 
 	if [[ "${1}" == "start" ]]; then
-
 		set_static_ip ptusb0 192.168.64.1
 
 		echo "Sleeping for 2 seconds..."
@@ -111,17 +110,12 @@ main() {
 
 		echo "Checking DHCP server status..."
 		if systemctl is-active --quiet isc-dhcp-server; then
-
 			echo "DHCP server started successfully."
-
 		else
-
 			echo "DHCP server failed. Output:"
 			systemctl status isc-dhcp-server
 			exit 1
-
 		fi
-
 	fi
 }
 
