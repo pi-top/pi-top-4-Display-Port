@@ -11,7 +11,7 @@ append_to_file() {
   local file="${1}"
   local description="${2}"
   local file_contents_to_append="${3}"
-  local notes="${4}"
+  local notes="${4:-}"
   (
     echo -e ""
     echo -e "# [pt-usb-eth-gadget] START"
