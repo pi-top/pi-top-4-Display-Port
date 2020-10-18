@@ -40,10 +40,10 @@ remove_config_from_boot_partition() {
 case "$1" in
     configure)
     reload_kernel_modules
-    if [[ -z "${2:-}" ]]; then
-      remove_config_from_boot_partition
-      deb-systemd-helper unmask isc-dhcp-server
-      deb-systemd-helper disable isc-dhcp-server
+    if [[ "${#}" -lt 2 ]]; then
+        remove_config_from_boot_partition
+        deb-systemd-helper unmask isc-dhcp-server
+        deb-systemd-helper disable isc-dhcp-server
     fi
     ;;
 
