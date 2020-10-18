@@ -9,7 +9,8 @@ IFS=$'\n\t'
 
 load_kernel_modules_for_this_session() {
   # /usr/lib/modules-load.d/ will load modules in future sessions
-  # but for current session, we will use modprobe
+  # but for current session, we will use modprobe.
+  # Requires device address explicitly
   modprobe -r dwc2
   modprobe dwc2
   modprobe -r g_ether
