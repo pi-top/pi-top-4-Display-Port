@@ -1,3 +1,4 @@
+src/10-configure-ptusb0.conf                    /lib/systemd/system/isc-dhcp-server.service.d/
 src/pt-usb-eth-gadget-setup                     /usr/lib/pt-usb-eth-gadget/
 src/g_ether.conf                                /etc/modprobe.d/
 src/10-dwc2.conf                                /usr/lib/modules-load.d/

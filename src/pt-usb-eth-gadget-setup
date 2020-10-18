@@ -9,21 +9,6 @@ IFS=$'\n\t'
 
 package_name="pt-usb-eth-gadget"
 
-usage_and_exit() {
-	echo "Usage: ${0} start|stop"
-	exit 1
-}
-
-if [[ -z "${1}" ]]; then
-	echo "No argument provided."
-	usage_and_exit
-fi
-
-if [[ "${1}" != "start" ]] && [[ "${1}" != "stop" ]]; then
-	echo "Argument does not match 'start' or 'stop."
-	usage_and_exit
-fi
-
 interface_is_up() {
 	local interface="${1}"
 
@@ -31,27 +16,6 @@ interface_is_up() {
 		return 0
 	else
 		return 1
-	fi
-}
-
-stop_dhcp_server_if_running() {
-	if systemctl status isc-dhcp-server &>/dev/null; then
-		echo "DHCP server is running - stopping..."
-		systemctl stop isc-dhcp-server
-	else
-		echo "DHCP server is not running - doing nothing..."
-	fi
-}
-
-delete_dhcp_pid_if_exists() {
-	local pid_file="/var/run/dhcpd.pid"
-
-	# Delete DHCP pid file if it exists
-	if [[ -f "${pid_file}" ]]; then
-		echo "DHCP pid file exists - deleting..."
-		rm "${pid_file}"
-	else
-		echo "DHCP pid file does not exist - doing nothing..."
 	fi
 }
 
@@ -165,32 +129,7 @@ main() {
 		return
 	fi
 
-	stop_dhcp_server_if_running
-	delete_dhcp_pid_if_exists
-
 	configure_dhcp_server_files
-
-	if [[ "${1}" == "start" ]]; then
-		set_static_ip ptusb0 192.168.64.1
-
-		echo "Sleeping for 2 seconds..."
-		sleep 2
-
-		echo "USB-C interface is up - starting DHCP server..."
-		systemctl start isc-dhcp-server
-
-		echo "Sleeping for 2 seconds..."
-		sleep 2
-
-		echo "Checking DHCP server status..."
-		if systemctl is-active --quiet isc-dhcp-server; then
-			echo "DHCP server started successfully."
-		else
-			echo "DHCP server failed. Output:"
-			systemctl status isc-dhcp-server
-			exit 1
-		fi
-	fi
 }
 
 main "$@"
