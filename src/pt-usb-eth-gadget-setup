@@ -7,6 +7,8 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
+package_name="pt-usb-eth-gadget"
+
 usage_and_exit() {
 	echo "Usage: ${0} start|stop"
 	exit 1
@@ -86,6 +88,74 @@ load_overlay() {
 	dtoverlay "${overlay_name}"
 }
 
+_delete_config_file_modifications() {
+	local id="${1}"
+	local file="${2}"
+
+	local start_line_regex="^# \[${id}\] START$"
+	local end_line_regex="^# \[${id}\] END$"
+	sed -i "/${start_line_regex}/,/${end_line_regex}/d" "${file}"
+}
+
+configure_file() {
+	local file="${1}"
+	local description="${2}"
+	local file_contents_to_append="${3}"
+	local notes="${4:-}"
+
+	# Delete previous implementation config lines in file
+	# (in case upgrading from pi-topOS)
+	_delete_config_file_modifications "pi-topOS" "${file}"
+
+	# Delete current config lines in file
+	# (in case updated in package)
+	_delete_config_file_modifications "${package_name}" "${file}"
+
+	# Clean up trailing newlines
+	trimmed_file_contents="$(printf "%s" "$(<"${file}")")"
+	echo "${trimmed_file_contents}" >"${file}"
+
+	# Append config
+	(
+		echo -e ""
+		echo -e "# [${package_name}] START"
+		echo -e "#"
+		echo -e "# ${description}"
+
+		if [[ -n "${notes}" ]]; then
+			echo -e "#"
+			echo -e "# Notes: "
+			echo -e "# ${notes/$'\n'/$'\n'# }"
+		fi
+
+		echo -e "#"
+		echo -e "${file_contents_to_append}"
+
+		echo -e "#"
+		echo -e "# [${package_name}] END"
+	) >>"${file}"
+}
+
+configure_dhcp_server_files() {
+	configure_file \
+		/etc/default/isc-dhcp-server \
+		"Set DHCP server to only server IP addresses on USB-OTG virtual Ethernet interface" \
+		"INTERFACESv4=\"ptusb0\""
+
+	configure_file \
+		/etc/dhcpcd.conf \
+		"Set static IP for USB-OTG virtual Ethernet interface" \
+		"interface ptusb0\nstatic ip_address=192.168.64.1/24" \
+		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet in /etc/default/isc-dhcp-server
+Compatible subnet, netmask and IP ranges are specified in /etc/dhcp/dhcpd.conf"
+
+	configure_file \
+		/etc/dhcp/dhcpd.conf \
+		"Configure DHCP server IP allocations" \
+		"default-lease-time 600;\nmax-lease-time 7200;\nddns-update-style none;\nsubnet 192.168.64.0 netmask 255.255.255.0 {\n  range 192.168.64.10 192.168.64.100;\n}" \
+		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
+}
+
 main() {
 	load_overlay "dwc2"
 
@@ -97,6 +167,8 @@ main() {
 
 	stop_dhcp_server_if_running
 	delete_dhcp_pid_if_exists
+
+	configure_dhcp_server_files
 
 	if [[ "${1}" == "start" ]]; then
 		set_static_ip ptusb0 192.168.64.1

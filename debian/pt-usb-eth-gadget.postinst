@@ -7,52 +7,6 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
-append_to_file() {
-  local file="${1}"
-  local description="${2}"
-  local file_contents_to_append="${3}"
-  local notes="${4:-}"
-  (
-    echo -e ""
-    echo -e "# [pt-usb-eth-gadget] START"
-    echo -e "#"
-    echo -e "# ${description}"
-
-    if [[ -n "${notes}" ]]; then
-      echo -e "#"
-      echo -e "# Notes: "
-      echo -e "# ${notes/$'\n'/$'\n'# }"
-    fi
-
-    echo -e "#"
-    echo -e "${file_contents_to_append}"
-
-    echo -e "#"
-    echo -e "# [pt-usb-eth-gadget] END"
-    echo -e ""
-  ) >> "${file}"
-}
-
-configure_dhcp_server() {
-  append_to_file \
-    /etc/default/isc-dhcp-server \
-    "Set DHCP server to only server IP addresses on USB-OTG virtual Ethernet interface" \
-    "INTERFACESv4=\"ptusb0\""
-
-  append_to_file \
-    /etc/dhcpcd.conf \
-    "Set static IP for USB-OTG virtual Ethernet interface" \
-    "interface ptusb0\nstatic ip_address=192.168.64.1/24" \
-    "DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet in /etc/default/isc-dhcp-server
-Compatible subnet, netmask and IP ranges are specified in /etc/dhcp/dhcpd.conf"
-
-  append_to_file \
-    /etc/dhcp/dhcpd.conf \
-    "Configure DHCP server IP allocations" \
-    "default-lease-time 600;\nmax-lease-time 7200;\nddns-update-style none;\nsubnet 192.168.64.0 netmask 255.255.255.0 {\n  range 192.168.64.10 192.168.64.100;\n}" \
-    "DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
-}
-
 remove_from_boot_config() {
   # This is dynamically loaded via `dtoverlay` command
   # so no need to initialise it with the kernel on boot.
@@ -87,7 +41,6 @@ case "$1" in
     configure)
     if [[ -z "${2}" ]]; then
       remove_config_from_boot_partition
-      configure_dhcp_server
     fi
     reload_kernel_modules
     ;;
