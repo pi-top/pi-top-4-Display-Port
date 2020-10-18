@@ -1,6 +1,7 @@
-src/10-configure-ptusb0.conf                    /lib/systemd/system/isc-dhcp-server.service.d/
-src/pt-usb-eth-gadget-setup                     /usr/lib/pt-usb-eth-gadget/
-src/g_ether.conf                                /etc/modprobe.d/
+src/10-configure-for-ptusb0.conf                /lib/systemd/system/isc-dhcp-server.service.d/
+src/dhcp-server-setup                           /usr/lib/pt-usb-eth-gadget/
+src/dtoverlay-setup                             /usr/lib/pt-usb-eth-gadget/
+src/hardcode_g_ether_mac_addr.conf              /etc/modprobe.d/
 src/10-dwc2.conf                                /usr/lib/modules-load.d/
 src/10-g_ether.conf                             /usr/lib/modules-load.d/
 src/90-ptusb0.rules                             /lib/udev/rules.d/

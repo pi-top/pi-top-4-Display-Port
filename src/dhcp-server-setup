@@ -9,49 +9,6 @@ IFS=$'\n\t'
 
 package_name="pt-usb-eth-gadget"
 
-interface_is_up() {
-	local interface="${1}"
-
-	if ip a show "${interface}" up &>/dev/null; then
-		return 0
-	else
-		return 1
-	fi
-}
-
-set_static_ip() {
-	local interface="${1}"
-	local ip="${2}"
-
-	echo "Setting static IP for ${interface}: ${ip}"
-	ifconfig "${interface}" "${ip}"
-}
-
-overlay_is_loaded() {
-	overlay_name="${1}"
-	if dtoverlay -l | grep -q "${overlay_name}$"; then
-		return 0
-	else
-		return 1
-	fi
-}
-
-unload_overlay() {
-	overlay_name="${1}"
-	# Remove if loaded
-	if overlay_is_loaded "${overlay_name}"; then
-		echo "Unloading ${overlay_name} dtoverlay"
-		dtoverlay -r "${overlay_name}"
-	fi
-}
-
-load_overlay() {
-	overlay_name="${1}"
-	unload_overlay "${overlay_name}"
-	echo "Loading ${overlay_name} dtoverlay"
-	dtoverlay "${overlay_name}"
-}
-
 _delete_config_file_modifications() {
 	local id="${1}"
 	local file="${2}"
@@ -120,17 +77,4 @@ Compatible subnet, netmask and IP ranges are specified in /etc/dhcp/dhcpd.conf"
 		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
 }
 
-main() {
-	load_overlay "dwc2"
-
-	if ! interface_is_up ptusb0; then
-		echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
-		unload_overlay "dwc2"
-		return
-	fi
-
-	configure_dhcp_server_files
-}
-
-main "$@"
-exit 0
+configure_dhcp_server_files
