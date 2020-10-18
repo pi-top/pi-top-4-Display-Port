@@ -9,7 +9,7 @@ IFS=$'\n\t'
 
 case "$1" in
     install)
-    if [[ -z "${2}" ]]; then
+    if [[ -z "${2:-}" ]]; then
       deb-systemd-helper mask isc-dhcp-server
     fi
     ;;
