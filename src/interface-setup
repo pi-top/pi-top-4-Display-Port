@@ -42,9 +42,17 @@ load_overlay() {
 	dtoverlay "${overlay_name}"
 }
 
-load_overlay "dwc2"
+main() {
+	load_overlay "dwc2"
 
-if ! interface_is_up ptusb0; then
-	echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
-	unload_overlay "dwc2"
-fi
+	if ! interface_is_up ptusb0; then
+		echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
+		unload_overlay "dwc2"
+		return
+	fi
+
+	# Set static IP for interface if found
+	ifconfig ptusb0 192.168.64.1
+}
+
+main
