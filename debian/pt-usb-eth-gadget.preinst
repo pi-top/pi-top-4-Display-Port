@@ -9,6 +9,7 @@ IFS=$'\n\t'
 
 # DEBUGGING
 set -x
+export _DEB_SYSTEMD_HELPER_DEBUG=1
 
 case "$1" in
     install)
