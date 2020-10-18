@@ -1,0 +1,29 @@
+#!/bin/bash
+###############################################################
+#                Unofficial 'Bash strict mode'                #
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/  #
+###############################################################
+set -euo pipefail
+IFS=$'\n\t'
+###############################################################
+
+case "$1" in
+    install)
+    if [[ -z "${2}" ]]; then
+      deb-systemd-helper mask isc-dhcp-server
+    fi
+    ;;
+
+    upgrade | abort-upgrade)
+    ;;
+
+\
+    *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0
