@@ -13,7 +13,7 @@ load_kernel_modules_for_this_session() {
   modprobe -r dwc2
   modprobe dwc2
   modprobe -r g_ether
-  modprobe g_ether
+  modprobe g_ether dev_addr=00:11:22:33:44:55
 }
 
 remove_dwc2_config_from_boot_partition() {
