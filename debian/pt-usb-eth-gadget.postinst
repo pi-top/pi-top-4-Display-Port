@@ -37,6 +37,9 @@ remove_config_from_boot_partition() {
   remove_from_boot_cmdline
 }
 
+# DEBUGGING
+set -x
+
 case "$1" in
     configure)
     reload_kernel_modules

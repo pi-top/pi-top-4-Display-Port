@@ -7,6 +7,9 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
+# DEBUGGING
+set -x
+
 case "$1" in
     install)
     if [[ "${#}" -lt 2 ]]; then
