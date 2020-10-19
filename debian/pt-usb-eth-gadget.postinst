@@ -1,0 +1,61 @@
+#!/bin/bash
+###############################################################
+#                Unofficial 'Bash strict mode'                #
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/  #
+###############################################################
+set -euo pipefail
+IFS=$'\n\t'
+###############################################################
+
+load_kernel_modules_for_this_session() {
+	# /usr/lib/modules-load.d/ will load modules in future sessions
+	# but for current session, we will use modprobe.
+	# Requires device address explicitly
+	modprobe -r dwc2
+	modprobe dwc2
+	modprobe -r g_ether
+	modprobe g_ether dev_addr=00:11:22:33:44:55
+}
+
+remove_dwc2_config_from_boot_partition() {
+	remove_dwc2_from_boot_config
+	remove_dwc2_from_boot_cmdline
+}
+
+remove_dwc2_from_boot_config() {
+	# This is dynamically loaded via `dtoverlay` command
+	# so no need to initialise it with the kernel on boot.
+	# This also makes it easier to check for.
+	[[ -f /boot/config.txt ]] &&
+		sed -i '/dtoverlay=dwc2/d' /boot/config.txt
+}
+
+remove_dwc2_from_boot_cmdline() {
+	# This is dynamically loaded via package files in '/usr/lib/modules-load.d/'
+	# so no need to initialise it with the kernel on boot.
+	#
+	# This is a very naive removal, primarily designed to allow pi-topOS users to
+	# upgrade. Most Raspberry Pi OS users will not have this, so will be unaffected.
+	[[ -f /boot/cmdline.txt ]] &&
+		sed -i 's/ modules-load=dwc2,g_ether//1' /boot/cmdline.txt
+}
+
+case "$1" in
+configure)
+	if [[ "${#}" -lt 2 ]]; then
+		load_kernel_modules_for_this_session
+		remove_dwc2_config_from_boot_partition
+	fi
+	;;
+
+triggered | abort-upgrade | abort-remove | abort-deconfigure) ;;
+
+*)
+	echo "postinst called with unknown argument \`$1'" >&2
+	exit 1
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0
