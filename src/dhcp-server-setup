@@ -7,7 +7,7 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
-package_name="pt-usb-eth-gadget"
+package_name="pt-dp-dhcp-server"
 
 _delete_config_file_modifications() {
 	local id="${1}"

@@ -7,16 +7,6 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
-load_kernel_modules_for_this_session() {
-	# /usr/lib/modules-load.d/ will load modules in future sessions
-	# but for current session, we will use modprobe.
-	# Requires device address explicitly
-	modprobe -r dwc2
-	modprobe dwc2
-	modprobe -r g_ether
-	modprobe g_ether dev_addr=00:11:22:33:44:55
-}
-
 remove_dwc2_config_from_boot_partition() {
 	remove_dwc2_from_boot_config
 	remove_dwc2_from_boot_cmdline
@@ -43,14 +33,15 @@ remove_dwc2_from_boot_cmdline() {
 case "$1" in
 configure)
 	if [[ "${#}" -lt 2 ]]; then
-		load_kernel_modules_for_this_session
 		remove_dwc2_config_from_boot_partition
 	fi
 	;;
 
-triggered | abort-upgrade | abort-remove | abort-deconfigure) ;;
+\
+	triggered | abort-upgrade | abort-remove | abort-deconfigure) ;;
 
-*)
+\
+	*)
 	echo "postinst called with unknown argument \`$1'" >&2
 	exit 1
 	;;

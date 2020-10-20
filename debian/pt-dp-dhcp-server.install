@@ -1,0 +1,2 @@
+src/10-configure-for-ptusb0.conf                /lib/systemd/system/isc-dhcp-server.service.d/
+src/dhcp-server-setup                           /usr/lib/pt-display-port/dhcp-server/setup

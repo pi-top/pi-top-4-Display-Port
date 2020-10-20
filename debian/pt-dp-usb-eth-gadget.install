@@ -1,0 +1,2 @@
+src/ptusb0-setup                                /usr/lib/pt-display-port/ptusb0/setup
+src/90-ptusb0-from-dev_addr.rules               /lib/udev/rules.d/

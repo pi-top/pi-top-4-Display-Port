@@ -1,4 +1,4 @@
-Source: pt-usb-eth-gadget
+Source: pt-display-port
 Section: utils
 Priority: optional
 Maintainer: pi-top <deb-maintainers@pi-top.com>
@@ -6,27 +6,65 @@ Build-Depends: debhelper-compat (= 12)
 Standards-Version: 4.5.0
 Homepage: https://pi-top.com/
 
-Package: pt-usb-eth-gadget
-Architecture: armhf
-# 'ip' command
+Package: pt-display-port
+Architecture: all
 Depends: ${misc:Depends},
+# USB Ethernet Gadget
+ pt-dp-usb-eth-gadget,
+# DHCP Server
+ pt-dp-dhcp-server,
+# Avoid errors since dhcp server unit file was provided by
+# pt-os in versions < 2.0
+# pt-networking in all versions
+Breaks: pt-os (<< 2.0.0), pt-networking
+Replaces: pt-os (<< 2.0.0), pt-networking
+Description: pi-top [4] Display Port Support
+ This is a dummy package that includes packages that manage kernel modules,
+ udev rules and system configuration (such as a DHCP server) to allow
+ plug-and-play network connections (such as SSH and VNC) with a pi-top [4]
+ via its USB-OTG connection from the Raspberry Pi's USB-C port.
+
+Package: pt-dp-usb-eth-gadget
+Architecture: all
+Depends: ${misc:Depends},
+# 'ip' command
  iproute2,
- isc-dhcp-server,
-# 'modprobe' command in postinst
+# 'modprobe' command
  kmod,
-# 'dtoverlay' command in postinst
+# 'dtoverlay' command
  libraspberrypi-bin,
 # 'ifconfig' command
  net-tools,
-# dwc2 and g_ether kernel modules
+# 'dwc2' and 'g_ether' kernel modules
  raspberrypi-kernel,
+Suggests: pt-display-port,
 # Avoid errors since dhcp server unit file was provided by
 # pt-os in versions < 2.0
 # pt-networking in all versions
 Breaks: pt-os (<< 2.0.0), pt-networking
 Replaces: pt-os (<< 2.0.0), pt-networking
 Description: pi-top [4] USB Ethernet Gadget Configuration
- This package manages kernel modules, udev rules and system configuration
- (such as a DHCP server) to allow plug-and-play network connections
- (such as SSH and VNC) with a pi-top [4] via its USB-OTG connection from
- the Raspberry Pi's USB-C port.
+ This package manages kernel modules and udev rules to expose a new
+ virtual Ethernet network interface ('ptusb0') on a Raspberry Pi 4
+ via its USB-OTG connection from the USB-C port.
+
+Package: pt-dp-dhcp-server
+Architecture: all
+Depends: ${misc:Depends},
+# Requires ptusb0 interface
+ pt-dp-usb-eth-gadget,
+# The actual DHCP server
+ isc-dhcp-server,
+# For determining if being run on a Pi 4
+ raspi-config,
+Suggests: pt-display-port,
+# Avoid errors since dhcp server unit file was provided by
+# pt-os in versions < 2.0
+# pt-networking in all versions
+Breaks: pt-os (<< 2.0.0), pt-networking
+Replaces: pt-os (<< 2.0.0), pt-networking
+Description: pi-top [4] USB Ethernet Gadget Configuration
+ This package will install and configure a DHCP server to serve
+ IP addresses on the 'ptusb0' virtual Ethernet network interface
+ (managed by pt-dp-usb-eth-gadget) to allow plug-and-play network
+ connections (such as SSH and VNC).

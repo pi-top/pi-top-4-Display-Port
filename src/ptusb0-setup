@@ -42,12 +42,25 @@ load_overlay() {
 	dtoverlay "${overlay_name}"
 }
 
+remove_kernel_modules() {
+	modprobe -r dwc2
+	modprobe -r g_ether
+}
+
+load_kernel_modules() {
+	remove_kernel_modules
+	modprobe dwc2
+	modprobe g_ether dev_addr=00:11:22:33:44:55
+}
+
 main() {
 	load_overlay "dwc2"
+	load_kernel_modules
 
 	if ! interface_is_up ptusb0; then
 		echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
 		unload_overlay "dwc2"
+		remove_kernel_modules
 		return
 	fi
 

@@ -1,7 +1,0 @@
-src/10-configure-for-ptusb0.conf                /lib/systemd/system/isc-dhcp-server.service.d/
-src/dhcp-server-setup                           /usr/lib/pt-usb-eth-gadget/
-src/interface-setup                             /usr/lib/pt-usb-eth-gadget/
-src/g_ether-dev_addr.conf                       /etc/modprobe.d/
-src/90-ptusb0-from-dev_addr.rules               /lib/udev/rules.d/
-src/10-dwc2.conf                                /usr/lib/modules-load.d/
-src/10-g_ether.conf                             /usr/lib/modules-load.d/
