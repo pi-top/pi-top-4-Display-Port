@@ -63,7 +63,7 @@ Suggests: pt-display-port,
 # pt-networking in all versions
 Breaks: pt-os (<< 2.0.0), pt-networking
 Replaces: pt-os (<< 2.0.0), pt-networking
-Description: pi-top [4] USB Ethernet Gadget Configuration
+Description: pi-top [4] USB Ethernet DHCP Server
  This package will install and configure a DHCP server to serve
  IP addresses on the 'ptusb0' virtual Ethernet network interface
  (managed by pt-dp-usb-eth-gadget) to allow plug-and-play network
