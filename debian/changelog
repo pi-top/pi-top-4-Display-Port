@@ -1,3 +1,13 @@
+pt-display-port (1.1.0) buster; urgency=medium
+
+  * Wait for ptusb0 interface to come up before exiting with error
+  * Use overlay status file instead of "dtoverlay -l"
+  * Make service compatible with systemd version 241
+  * Fix path to scripts for isc-dhcp-server
+  * Remove unused systemd service from rules file
+
+ -- Jorge Capona <jorge@pi-top.com>  Wed, 21 Oct 2020 20:37:05 -0300
+
 pt-display-port (1.0.0) buster; urgency=medium
 
   * Remove unnecessary baobab dependency
