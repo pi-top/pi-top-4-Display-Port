@@ -46,6 +46,7 @@ load_overlay() {
 	unload_overlay "${overlay_name}"
 	echo "Loading ${overlay_name} dtoverlay"
 	dtoverlay "${overlay_name}"
+	sleep 1
 }
 
 remove_kernel_modules() {
@@ -62,6 +63,7 @@ load_kernel_modules() {
 main() {
 	load_overlay "dwc2"
 	load_kernel_modules
+	sleep 2
 
 	if ! interface_is_up ptusb0; then
 		echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
