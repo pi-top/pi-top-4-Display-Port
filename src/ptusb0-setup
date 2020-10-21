@@ -60,11 +60,27 @@ load_kernel_modules() {
 	modprobe g_ether dev_addr=00:11:22:33:44:55
 }
 
+wait_for_interface() {
+	local interface="${1}"
+	echo "Waiting for '${interface}' interface for 5 seconds..."
+
+	COUNTER=1
+	while [ $COUNTER -ne 6 ]; do
+		if interface_is_up "${interface}"; then
+			echo "Interface is up!"
+			break
+		fi
+		echo "Sleeping for 1 sec..."
+		sleep 1
+		COUNTER=$((COUNTER + 1))
+	done
+}
+
 main() {
 	load_overlay "dwc2"
 	load_kernel_modules
-	sleep 2
 
+	wait_for_interface ptusb0
 	if ! interface_is_up ptusb0; then
 		echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
 		unload_overlay "dwc2"
