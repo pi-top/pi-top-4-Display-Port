@@ -19,7 +19,13 @@ interface_is_up() {
 
 overlay_is_loaded() {
 	overlay_name="${1}"
-	if dtoverlay -l | grep -q "${overlay_name}$"; then
+	status_file=""
+
+	if [ "${overlay_name}" == "dwc2" ]; then
+		status_file="/proc/device-tree/soc/usb@7e980000/status"
+	fi
+
+	if grep -s -q okay "${status_file}"; then
 		return 0
 	else
 		return 1
