@@ -32,7 +32,7 @@ remove_dwc2_from_boot_cmdline() {
 
 case "$1" in
 configure)
-	if [[ "${#}" -lt 2 ]]; then
+	if [[ "${#}" -lt 2 || -z "${2}" ]]; then
 		remove_dwc2_config_from_boot_partition
 	fi
 	;;

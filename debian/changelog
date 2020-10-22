@@ -1,3 +1,9 @@
+pt-display-port (1.1.2) buster; urgency=medium
+
+  * Apply maintainer script on first install only
+
+ -- Jorge Capona <jorge@pi-top.com>  Thu, 22 Oct 2020 14:49:42 -0300
+
 pt-display-port (1.1.0) buster; urgency=medium
 
   * Wait for ptusb0 interface to come up before exiting with error
