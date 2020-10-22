@@ -23,6 +23,8 @@ overlay_is_loaded() {
 
 	if [ "${overlay_name}" == "dwc2" ]; then
 		status_file="/proc/device-tree/soc/usb@7e980000/status"
+	else
+		return 1
 	fi
 
 	if grep -s -q okay "${status_file}"; then
@@ -62,15 +64,16 @@ load_kernel_modules() {
 
 wait_for_interface() {
 	local interface="${1}"
-	echo "Waiting for '${interface}' interface for 5 seconds..."
+	local time_to_wait="${2}"
+	echo "Waiting for '${interface}' interface for up to ${time_to_wait} seconds..."
 
 	COUNTER=1
-	while [ $COUNTER -ne 6 ]; do
+	while [ $COUNTER -le "${time_to_wait}" ]; do
 		if interface_is_up "${interface}"; then
-			echo "Interface is up!"
+			echo "Interface '${interface}' is up!"
 			break
 		fi
-		echo "Sleeping for 1 sec..."
+		echo "Sleeping for 1 sec waiting for '${interface}' interface..."
 		sleep 1
 		COUNTER=$((COUNTER + 1))
 	done
@@ -80,7 +83,7 @@ main() {
 	load_overlay "dwc2"
 	load_kernel_modules
 
-	wait_for_interface ptusb0
+	wait_for_interface ptusb0 5
 	if ! interface_is_up ptusb0; then
 		echo "USB-OTG interface 'ptusb0' is not up. Nothing to do..."
 		unload_overlay "dwc2"
