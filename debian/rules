@@ -1,6 +1,3 @@
 #!/usr/bin/make -f
 %:
 	dh $@
-
-override_dh_installsystemd:
-	dh_installsystemd --name=pt-display-port
