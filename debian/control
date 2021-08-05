@@ -13,11 +13,6 @@ Depends: ${misc:Depends},
  pt-dp-usb-eth-gadget,
 # DHCP Server
  pt-dp-dhcp-server,
-# Avoid errors since dhcp server unit file was provided by
-# pt-os in versions < 2.0
-# pt-networking in all versions
-Breaks: pt-os (<< 2.0.0), pt-networking
-Replaces: pt-os (<< 2.0.0), pt-networking
 Description: pi-top [4] Display Port Support
  This is a dummy package that includes packages that manage kernel modules,
  udev rules and system configuration (such as a DHCP server) to allow
@@ -38,11 +33,6 @@ Depends: ${misc:Depends},
 # 'dwc2' and 'g_ether' kernel modules
  raspberrypi-kernel,
 Suggests: pt-display-port,
-# Avoid errors since dhcp server unit file was provided by
-# pt-os in versions < 2.0
-# pt-networking in all versions
-Breaks: pt-os (<< 2.0.0), pt-networking
-Replaces: pt-os (<< 2.0.0), pt-networking
 Description: pi-top [4] USB Ethernet Gadget Configuration
  This package manages kernel modules and udev rules to expose a new
  virtual Ethernet network interface ('ptusb0') on a Raspberry Pi 4
@@ -58,11 +48,6 @@ Depends: ${misc:Depends},
 # For determining if being run on a Pi 4
  raspi-config,
 Suggests: pt-display-port,
-# Avoid errors since dhcp server unit file was provided by
-# pt-os in versions < 2.0
-# pt-networking in all versions
-Breaks: pt-os (<< 2.0.0), pt-networking
-Replaces: pt-os (<< 2.0.0), pt-networking
 Description: pi-top [4] USB Ethernet DHCP Server
  This package will install and configure a DHCP server to serve
  IP addresses on the 'ptusb0' virtual Ethernet network interface
