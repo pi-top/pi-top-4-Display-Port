@@ -52,8 +52,8 @@ load_overlay() {
 }
 
 remove_kernel_modules() {
-	modprobe -rf dwc2
-	modprobe -rf g_ether
+	modprobe -rf dwc2 || true
+	modprobe -rf g_ether || true
 }
 
 load_kernel_modules() {
