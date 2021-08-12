@@ -7,7 +7,7 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
-package_name="pt-dp-dhcp-server"
+package_name="pt-display-port"
 
 _delete_config_file_modifications() {
 	local id="${1}"
@@ -23,10 +23,6 @@ configure_file() {
 	local description="${2}"
 	local file_contents_to_append="${3}"
 	local notes="${4:-}"
-
-	# Delete previous implementation config lines in file
-	# (in case upgrading from pi-topOS)
-	_delete_config_file_modifications "pi-topOS" "${file}"
 
 	# Delete current config lines in file
 	# (in case updated in package)
