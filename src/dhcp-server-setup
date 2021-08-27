@@ -7,7 +7,7 @@ set -euo pipefail
 IFS=$'\n\t'
 ###############################################################
 
-package_name="pt-dp-dhcp-server"
+package_name="pt-display-port"
 
 _delete_config_file_modifications() {
 	local id="${1}"
@@ -23,10 +23,6 @@ configure_file() {
 	local description="${2}"
 	local file_contents_to_append="${3}"
 	local notes="${4:-}"
-
-	# Delete previous implementation config lines in file
-	# (in case upgrading from pi-topOS)
-	_delete_config_file_modifications "pi-topOS" "${file}"
 
 	# Delete current config lines in file
 	# (in case updated in package)
@@ -61,7 +57,11 @@ configure_dhcp_server_files() {
 	configure_file \
 		/etc/default/isc-dhcp-server \
 		"Set DHCP server to only server IP addresses on USB-OTG virtual Ethernet interface" \
-		"INTERFACESv4=\"ptusb0\""
+		"if [ -n \"\${INTERFACESv4:-}\" ]; then
+	INTERFACESv4=\"\${INTERFACESv4} ptusb0\"
+else
+	INTERFACESv4=\"ptusb0\"
+fi"
 
 	configure_file \
 		/etc/dhcpcd.conf \

@@ -39,7 +39,9 @@ unload_overlay() {
 	# Remove if loaded
 	if overlay_is_loaded "${overlay_name}"; then
 		echo "Unloading ${overlay_name} dtoverlay"
-		dtoverlay -r "${overlay_name}"
+		# TODO: handle this properly
+		# it's only 'dwc2' that is failing here
+		dtoverlay -r "${overlay_name}" || true
 	fi
 }
 
@@ -52,13 +54,14 @@ load_overlay() {
 }
 
 remove_kernel_modules() {
-	modprobe -rf dwc2
+	# TODO: Probably not even needed...
+	modprobe -rf dwc2 || true
 	modprobe -rf g_ether
 }
 
 load_kernel_modules() {
 	remove_kernel_modules
-	modprobe dwc2
+	modprobe dwc2 || true
 	modprobe g_ether dev_addr=00:11:22:33:44:55
 }
 
