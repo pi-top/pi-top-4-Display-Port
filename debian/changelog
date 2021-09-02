@@ -1,11 +1,7 @@
-pt-display-port (1.1.4) buster; urgency=medium
+pt-display-port (1.1.4) bullseye; urgency=medium
 
-  * Workflow: create draft release manually
-  * New workflows (#5)
-  * Update master workflow files
   * Update master workflow files
   * Bullseye release (#7)
-  * Updated master workflow files
 
  -- pi-top <deb-maintainers@pi-top.com>  Wed, 01 Sep 2021 20:48:07 +0000
 
