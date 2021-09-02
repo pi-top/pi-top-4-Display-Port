@@ -62,17 +62,6 @@ jobs:
           name: "dsc"
           path: "./artifacts"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: "v${{ env.CURRENT_VERSION }}"
-          name: "v${{ env.CURRENT_VERSION }}"
-          draft: false
-          prerelease: false
-          files: ./artifacts/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # Upload build
       - uses: pi-top/ghaction-packagecloud@main
         with:
@@ -83,3 +72,14 @@ jobs:
             ./artifacts/*.deb
         env:
           PACKAGECLOUD_TOKEN: ${{ secrets.PACKAGECLOUD_TOKEN }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.CURRENT_VERSION }}"
+          name: "v${{ env.CURRENT_VERSION }}"
+          draft: false
+          prerelease: false
+          files: ./artifacts/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
