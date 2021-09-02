@@ -30,8 +30,9 @@ jobs:
         run: |
           sudo apt install -y dpkg-dev
           latest_tag=${{ steps.version.outputs.tag_latest }}
-          echo "CURRENT_VERSION=$(dpkg-parsechangelog -Sversion)" >> $GITHUB_ENV
-          dpkg --compare-versions ${{ env.CURRENT_VERSION }} gt ${latest_tag#v}
+          latest_version=$(dpkg-parsechangelog -Sversion)
+          dpkg --compare-versions ${latest_version} gt ${latest_tag#v}
+          echo "CURRENT_VERSION=${latest_version}" >> $GITHUB_ENV
 
       - name: Determine architecture to use from package info
         # If architecture is 'all', then it can be compiled on host architecture
