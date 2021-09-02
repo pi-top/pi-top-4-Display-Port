@@ -24,23 +24,13 @@ jobs:
       - id: version
         uses: docker://lpenz/ghaction-version-gen:0.3
 
-      - name: Determine current and last tagged versions
+      # TODO: move this to a new action
+      # (use Docker for pre-installing 'dpkg-dev')
+      - name: Confirm version is higher than last tagged version
         run: |
           sudo apt install -y dpkg-dev
-          echo "CURRENT_VERSION=$(dpkg-parsechangelog -Sversion)" >> $GITHUB_ENV
-
-      - name: Clean latest tag string
-        run: |
-          LATEST_TAG_COMPLETE=${{ steps.version.outputs.tag_latest }}
-          if [[ "${LATEST_TAG_COMPLETE:0:1}" == "v" ]]; then
-            echo "LATEST_TAG=${LATEST_TAG_COMPLETE:1}" >> $GITHUB_ENV
-          else
-            echo "LATEST_TAG=${LATEST_TAG_COMPLETE}" >> $GITHUB_ENV
-          fi
-
-      - name: Confirm version is higher than last tagged version
-        if: ${{ env.LATEST_TAG != '' }}
-        run: dpkg --compare-versions ${{ env.CURRENT_VERSION }} gt ${{ env.LATEST_TAG }}
+          latest_tag=${{ steps.version.outputs.tag_latest }}
+          dpkg --compare-versions $(dpkg-parsechangelog -Sversion) gt ${latest_tag#v}
 
       - name: Determine architecture to use from package info
         # If architecture is 'all', then it can be compiled on host architecture
@@ -88,14 +78,10 @@ jobs:
         env:
           PACKAGECLOUD_TOKEN: ${{ secrets.PACKAGECLOUD_TOKEN }}
 
-      - name: Generate artifact name
-        run: |
-          echo "ARTIFACT_PREFIX=$(basename -s .dsc "$(find . -name "*.dsc")")" >> $GITHUB_ENV
-
       # dsc
       - uses: docker://lpenz/ghaction-packagecloud:v0.3
         with:
           repository: ${{ env.PACKAGECLOUD_REPO }}/${{ env.OS }}/${{ env.DISTRO }}
-          files: ./artifacts/${{ env.ARTIFACT_PREFIX }}.dsc
+          files: ./artifacts/*.dsc
         env:
           PACKAGECLOUD_TOKEN: ${{ secrets.PACKAGECLOUD_TOKEN }}
