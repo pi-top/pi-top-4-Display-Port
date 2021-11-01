@@ -1,3 +1,13 @@
+pt-display-port (1.1.4-3) bullseye; urgency=medium
+
+  * Drop comment
+  * Updated master workflow files
+  * Updated master workflow files
+  * Updated master workflow files
+  * Update README
+
+ -- pi-top <deb-maintainers@pi-top.com>  Mon, 01 Nov 2021 15:42:09 +0000
+
 pt-display-port (1.1.4-2) bullseye; urgency=medium
 
   * Update master workflow files
