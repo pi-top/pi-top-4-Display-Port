@@ -1,4 +1,4 @@
-pt-display-port (1.1.4-4) bullseye; urgency=medium
+pt-display-port (1.1.5-1) bullseye; urgency=medium
 
   * Check for existing variable in dhcp server config file (#15)
 
