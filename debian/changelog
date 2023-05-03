@@ -1,16 +1,5 @@
 pt-display-port (1.1.4-4) bullseye; urgency=medium
 
-  * [pre-commit.ci] pre-commit autoupdate (#10)
-  * Updated master workflow files
-  * [pre-commit.ci] pre-commit autoupdate (#12)
-  * Add signing key and passphrase to deb_release workflow
-  * Add pull request template
-  * Update PR template to track Github issues
-  * [pre-commit.ci] pre-commit autoupdate (#13)
-  * Updated master workflow files
-  * Updated master workflow files
-  * Updated master workflow files
-  * Updated master workflow files
   * Check for existing variable in dhcp server config file (#15)
 
  -- pi-top <deb-maintainers@pi-top.com>  Wed, 03 May 2023 13:19:58 +0000
