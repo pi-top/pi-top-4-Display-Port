@@ -57,8 +57,11 @@ configure_dhcp_server_files() {
 	configure_file \
 		/etc/default/isc-dhcp-server \
 		"Set DHCP server to only server IP addresses on USB-OTG virtual Ethernet interface" \
-		"if [ -n \"\${INTERFACESv4:-}\" ]; then
-	INTERFACESv4=\"\${INTERFACESv4} ptusb0\"
+		"if [ ! -z \"\${INTERFACESv4:-}\" ]; then
+	INTERFACESv4=\"\${INTERFACESv4:-}\"
+	if \$(echo \"\${INTERFACESv4}\" | grep -Evq \"^ptusb0\$| ptusb0 | ptusb0\$\"); then
+		INTERFACESv4=\"\${INTERFACESv4} ptusb0\"
+	fi
 else
 	INTERFACESv4=\"ptusb0\"
 fi"
