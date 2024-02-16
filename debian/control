@@ -47,8 +47,8 @@ Depends: ${misc:Depends},
  isc-dhcp-server,
 # For determining if being run on a Pi 4
  raspi-config,
-# Support bookworm (network-manager) and older OSs (dhcpcd)
- dhcpcd5 | network-manager,
+# Support bookworm and older OSs
+ dhcpcd5 | dhcpcd-base,
 Suggests: pt-display-port,
 Description: pi-top [4] USB Ethernet DHCP Server
  This package will install and configure a DHCP server to serve
