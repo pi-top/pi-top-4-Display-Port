@@ -66,18 +66,24 @@ elif \$(echo \"\${INTERFACESv4}\" | grep -Evq \"^ptusb0| ptusb0 | ptusb0$\"); th
 	INTERFACESv4=\"\${INTERFACESv4} ptusb0\"
 fi"
 
-	configure_file \
-		/etc/dhcpcd.conf \
-		"Set static IP for USB-OTG virtual Ethernet interface" \
-		"interface ptusb0\nstatic ip_address=192.168.64.1/24" \
-		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet in /etc/default/isc-dhcp-server
+  if [ -f /etc/dhcpcd.conf ]; then
+    configure_file \
+      /etc/dhcpcd.conf \
+      "Set static IP for USB-OTG virtual Ethernet interface" \
+      "interface ptusb0\nstatic ip_address=192.168.64.1/24" \
+      "DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet in /etc/default/isc-dhcp-server
 Compatible subnet, netmask and IP ranges are specified in /etc/dhcp/dhcpd.conf"
+  elif [ -x "$(command -v nmcli)" ]; then
+    nmcli c mod ptusb0 ipv4.addresses 192.168.64.1/24 ipv4.method manual ifname ptusb0
+    nmcli connection down ptusb0 || true
+    nmcli connection up ptusb0
+  fi
 
-	configure_file \
-		/etc/dhcp/dhcpd.conf \
-		"Configure DHCP server IP allocations" \
-		"default-lease-time 600;\nmax-lease-time 7200;\nddns-update-style none;\nsubnet 192.168.64.0 netmask 255.255.255.0 {\n  range 192.168.64.10 192.168.64.100;\n}" \
-		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
+  configure_file \
+    /etc/dhcp/dhcpd.conf \
+    "Configure DHCP server IP allocations" \
+    "default-lease-time 600;\nmax-lease-time 7200;\nddns-update-style none;\nsubnet 192.168.64.0 netmask 255.255.255.0 {\n  range 192.168.64.10 192.168.64.100;\n}" \
+    "DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
 }
 
 configure_dhcp_server_files
