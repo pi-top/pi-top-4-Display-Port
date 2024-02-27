@@ -1,2 +1,3 @@
-lib/systemd/system/isc-dhcp-server.service.d
-usr/lib/pt-display-port/dhcp-server/setup
+lib/systemd/system/
+# dhcp-server-setup depends on the package distro; check the rules file
+dhcp-server-setup usr/lib/pt-display-port/dhcp-server/setup/

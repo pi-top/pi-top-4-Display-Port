@@ -1,0 +1,26 @@
+#!/bin/bash
+###############################################################
+#                Unofficial 'Bash strict mode'                #
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/  #
+###############################################################
+set -euo pipefail
+IFS=$'\n\t'
+###############################################################
+
+CONNECTION_NAME="pi-top-usb"
+USB_IFACE="ptusb0"
+IFACE_IP="192.168.64.1"
+SUBNET="24"
+
+_setup_with_network_manager() {
+        nmcli con delete "${CONNECTION_NAME}" || true
+        nmcli con add con-name "${CONNECTION_NAME}" \
+                ifname "${USB_IFACE}" \
+                type ethernet \
+                ipv4.method shared \
+                ipv4.addresses "${IFACE_IP}/${SUBNET}"  \
+                ipv4.gateway "${IFACE_IP}"
+        nmcli con up "${CONNECTION_NAME}"
+}
+
+_setup_with_network_manager

@@ -1,3 +1,23 @@
 #!/usr/bin/make -f
+
 %:
 	dh $@
+
+distribution := $(shell (grep VERSION_CODENAME /etc/os-release | cut -d'=' -f2))
+
+override_dh_gencontrol:
+ifeq ($(distribution),bookworm)
+	dh_gencontrol -- '-VcustomDeps:networking=network-manager'
+else
+	dh_gencontrol -- '-VcustomDeps:networking=isc-dhcp-server,dhcpcd5'
+endif
+
+override_dh_install:
+ifeq ($(distribution),bookworm)
+	rm -r lib/systemd/system/isc-dhcp-server.service.d
+	mv dhcp-server-setup-bookworm dhcp-server-setup	
+else
+	rm -r lib/systemd/system/NetworkManager.service.d
+	mv dhcp-server-setup-bullseye dhcp-server-setup
+endif	
+	dh_install
