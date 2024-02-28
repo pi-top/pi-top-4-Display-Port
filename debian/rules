@@ -15,9 +15,9 @@ endif
 override_dh_install:
 ifeq ($(distribution),bookworm)
 	rm -r lib/systemd/system/isc-dhcp-server.service.d
-	mv dhcp-server-setup-bookworm dhcp-server-setup	
+	mv dhcp-server-setup-bookworm dhcp-server-setup
 else
 	rm -r lib/systemd/system/NetworkManager.service.d
 	mv dhcp-server-setup-bullseye dhcp-server-setup
-endif	
+endif
 	dh_install
