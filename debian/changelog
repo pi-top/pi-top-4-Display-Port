@@ -1,3 +1,9 @@
+pt-display-port (1.4.0-3) bullseye; urgency=medium
+
+  * Use NetworkManager on bookworm (#24)
+
+ -- pi-top <deb-maintainers@pi-top.com>  Wed, 28 Feb 2024 15:57:39 +0000
+
 pt-display-port (1.4.0-2) bullseye; urgency=medium
 
   * Package for bookworm (#22)
