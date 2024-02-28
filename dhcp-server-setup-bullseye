@@ -75,11 +75,11 @@ fi"
 		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet in /etc/default/isc-dhcp-server
 Compatible subnet, netmask and IP ranges are specified in /etc/dhcp/dhcpd.conf"
 
-  configure_file \
-    /etc/dhcp/dhcpd.conf \
-    "Configure DHCP server IP allocations" \
-    "default-lease-time 600;\nmax-lease-time 7200;\nddns-update-style none;\nsubnet 192.168.64.0 netmask 255.255.255.0 {\n  range 192.168.64.10 192.168.64.100;\n}" \
-    "DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
+	configure_file \
+		/etc/dhcp/dhcpd.conf \
+		"Configure DHCP server IP allocations" \
+		"default-lease-time 600;\nmax-lease-time 7200;\nddns-update-style none;\nsubnet 192.168.64.0 netmask 255.255.255.0 {\n  range 192.168.64.10 192.168.64.100;\n}" \
+		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
 }
 
 configure_dhcp_server_files

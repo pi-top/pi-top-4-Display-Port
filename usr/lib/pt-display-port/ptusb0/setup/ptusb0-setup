@@ -22,7 +22,7 @@ overlay_is_loaded() {
 	# since it only tracks overlays loaded via 'dtoverlay' on runtime;
 	# some overlays are loaded on boot by the kernel according
 	# to /boot/config.txt and won't show up in 'dtoverlay -l'
-	
+
 	overlay_name="${1}"
 	status_file=""
 

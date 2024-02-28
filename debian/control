@@ -43,12 +43,10 @@ Architecture: all
 Depends: ${misc:Depends},
 # Requires ptusb0 interface
  usb-eth-gadget,
-# The actual DHCP server
- isc-dhcp-server,
 # For determining if being run on a Pi 4
  raspi-config,
-# Support bookworm and older OSs
- dhcpcd5 | dhcpcd-base,
+# Dependencies based on distro (see rules file)
+ ${customDeps:networking},
 Suggests: pt-display-port,
 Description: pi-top [4] USB Ethernet DHCP Server
  This package will install and configure a DHCP server to serve
