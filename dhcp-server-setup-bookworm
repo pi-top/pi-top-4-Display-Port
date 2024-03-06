@@ -18,8 +18,7 @@ _setup_with_network_manager() {
                 ifname "${USB_IFACE}" \
                 type ethernet \
                 ipv4.method shared \
-                ipv4.addresses "${IFACE_IP}/${SUBNET}"  \
-                ipv4.gateway "${IFACE_IP}"
+                ipv4.addresses "${IFACE_IP}/${SUBNET}"
         nmcli con up "${CONNECTION_NAME}"
 }
 
