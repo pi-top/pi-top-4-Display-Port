@@ -1,3 +1,9 @@
+pt-display-port (1.4.0-4) bullseye; urgency=medium
+
+  * Don't set gateway to avoid connectivity issues (#26)
+
+ -- pi-top <deb-maintainers@pi-top.com>  Wed, 06 Mar 2024 18:44:53 +0000
+
 pt-display-port (1.4.0-3) bullseye; urgency=medium
 
   * Use NetworkManager on bookworm (#24)
