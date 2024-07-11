@@ -1,3 +1,9 @@
+pt-display-port (1.4.0-6) bullseye; urgency=medium
+
+  * Run dnsmasq separately on USB connection (#29)
+
+ -- pi-top <deb-maintainers@pi-top.com>  Thu, 11 Jul 2024 20:11:59 +0000
+
 pt-display-port (1.4.0-5) bullseye; urgency=medium
 
   * Don't assign default route to USB connection
