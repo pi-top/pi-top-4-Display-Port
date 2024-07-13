@@ -98,6 +98,11 @@ wait_for_interface() {
 }
 
 main() {
+	if ! /usr/bin/raspi-config nonint is_pifour; then
+		echo "Not a pi-top[4], won't create interface ptusb0..."
+		return
+	fi
+
 	load_overlay "dwc2"
 	load_kernel_modules
 
@@ -111,6 +116,8 @@ main() {
 
 	# Set static IP for interface if found
 	ifconfig ptusb0 192.168.64.1
+
+	sleep 2
 }
 
 main

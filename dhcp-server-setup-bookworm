@@ -62,6 +62,11 @@ _wait_for_network_manager() {
 
 
 main() {
+  if ! /usr/bin/raspi-config nonint is_pifour; then
+    echo "Not a pi-top[4], skipping dhcp server setup for ptusb0..."
+    return
+  fi
+
   _wait_for_network_manager
   _configure_connection
   _configure_dhcp_server
