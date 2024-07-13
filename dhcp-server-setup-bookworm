@@ -10,17 +10,67 @@ IFS=$'\n\t'
 CONNECTION_NAME="pi-top-usb"
 USB_IFACE="ptusb0"
 IFACE_IP="192.168.64.1"
+IP_RANGE="192.168.64.10,192.168.64.254"
+LEASE_TIME="60m"
 SUBNET="24"
+DNSMASQ_PID_FILE="/run/nm-dnsmasq-${USB_IFACE}.pid"
 
-_setup_with_network_manager() {
-        nmcli con delete "${CONNECTION_NAME}" || true
-        nmcli con add con-name "${CONNECTION_NAME}" \
-                ifname "${USB_IFACE}" \
-                type ethernet \
-                ipv4.method shared \
-                ipv4.addresses "${IFACE_IP}/${SUBNET}" \
-                ipv4.never-default yes
-        nmcli con up "${CONNECTION_NAME}"
+_configure_connection() {
+  nmcli con delete "${CONNECTION_NAME}" || true
+
+  nmcli con add con-name "${CONNECTION_NAME}" \
+    ifname "${USB_IFACE}" \
+    type ethernet \
+    ipv4.method manual \
+    ipv4.addresses "${IFACE_IP}/${SUBNET}"
+
+  nmcli con up "${CONNECTION_NAME}"
 }
 
-_setup_with_network_manager
+_configure_dhcp_server() {
+  if [ -f "${DNSMASQ_PID_FILE}" ]; then
+    kill -9 "$(cat "${DNSMASQ_PID_FILE}")" || true
+    rm -f "${DNSMASQ_PID_FILE}"
+  fi
+
+  # Run dnsmasq without DNS functionality. Also, don't advertise as
+  # default gateway or DNS server to avoid conneciton issues
+  /usr/sbin/dnsmasq \
+    --port=0 \
+    --dhcp-option=3 \
+    --dhcp-option=6 \
+    --conf-file=/dev/null \
+    --no-hosts \
+    --bind-interfaces \
+    --except-interface=lo \
+    --clear-on-reload \
+    --strict-order \
+    --listen-address="${IFACE_IP}" \
+    --dhcp-range="${IP_RANGE}","${LEASE_TIME}" \
+    --dhcp-leasefile=/var/lib/NetworkManager/dnsmasq-"${USB_IFACE}".leases \
+    --pid-file="${DNSMASQ_PID_FILE}" \
+    --conf-dir=/etc/NetworkManager/dnsmasq-shared.d
+}
+
+
+_wait_for_network_manager() {
+  cmd="nmcli &>/dev/null"
+  while ! eval "${cmd}"; do
+    sleep 1
+  done
+}
+
+
+main() {
+  if ! /usr/bin/raspi-config nonint is_pifour; then
+    echo "Not a pi-top[4], skipping dhcp server setup for ptusb0..."
+    return
+  fi
+
+  _wait_for_network_manager
+  _configure_connection
+  _configure_dhcp_server
+}
+
+
+main

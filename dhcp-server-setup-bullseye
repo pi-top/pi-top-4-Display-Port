@@ -82,4 +82,12 @@ Compatible subnet, netmask and IP ranges are specified in /etc/dhcp/dhcpd.conf"
 		"DHCP is configured to offer IP addresses via USB-OTG virtual Ethernet interface in /etc/default/isc-dhcp-server"
 }
 
-configure_dhcp_server_files
+main() {
+	if ! /usr/bin/raspi-config nonint is_pifour; then
+		echo "Not a pi-top[4], skipping dhcp server setup for ptusb0..."
+		return
+	fi
+	configure_dhcp_server_files
+}
+
+main
