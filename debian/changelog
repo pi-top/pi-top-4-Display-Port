@@ -1,3 +1,10 @@
+pt-display-port (1.4.0-8) bullseye; urgency=medium
+
+  * Check if running on a pi4 on systemd drop-in
+  * [pre-commit.ci] pre-commit autoupdate (#14)
+
+ -- pi-top <deb-maintainers@pi-top.com>  Fri, 19 Jul 2024 19:23:58 +0000
+
 pt-display-port (1.4.0-7) bullseye; urgency=medium
 
   * Systemd service exit cleanly on non pi-top[4] (#31)
