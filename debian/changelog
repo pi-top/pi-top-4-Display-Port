@@ -1,3 +1,9 @@
+pt-display-port (1.4.0-8) bullseye; urgency=medium
+
+  * Start isc-dhcp-server only on RPi 4
+
+ -- pi-top <deb-maintainers@pi-top.com>  Mon, 05 Aug 2024 22:47:17 +0000
+
 pt-display-port (1.4.0-7) bullseye; urgency=medium
 
   * Systemd service exit cleanly on non pi-top[4] (#31)
