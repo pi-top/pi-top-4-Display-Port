@@ -27,9 +27,11 @@ Depends: ${misc:Depends},
 # 'modprobe' command
  kmod,
 # 'dtoverlay' command
- raspi-utils-dt,
+ libraspberrypi-bin,
 # 'ifconfig' command
  net-tools,
+# 'dwc2' and 'g_ether' kernel modules
+ raspberrypi-kernel,
 Suggests: pt-display-port,
 Description: pi-top [4] USB Ethernet Gadget Configuration
  This package manages kernel modules and udev rules to expose a new
