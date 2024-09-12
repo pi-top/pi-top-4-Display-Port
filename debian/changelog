@@ -1,4 +1,4 @@
-pt-display-port (1.4.0-9) bullseye; urgency=medium
+pt-display-port (1.4.1-1) bullseye; urgency=medium
 
   * Update dependencies to use raspi-utils-dt (#36)
   * Update workflows
