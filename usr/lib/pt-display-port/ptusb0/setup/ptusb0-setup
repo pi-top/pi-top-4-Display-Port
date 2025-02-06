@@ -69,15 +69,16 @@ load_overlay() {
 }
 
 remove_kernel_modules() {
-	# TODO: Probably not even needed...
+	# not needed in newer kernels
 	modprobe -rf dwc2 || true
-	modprobe -rf g_ether
+	modprobe -rf g_ether || true
 }
 
 load_kernel_modules() {
 	remove_kernel_modules
+	# not needed in newer kernels
 	modprobe dwc2 || true
-	modprobe g_ether dev_addr=00:11:22:33:44:55
+	modprobe g_ether dev_addr=00:11:22:33:44:55 || true
 }
 
 wait_for_interface() {
