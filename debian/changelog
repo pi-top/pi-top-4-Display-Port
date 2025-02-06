@@ -1,3 +1,13 @@
+pt-display-port (1.4.1-2) bullseye; urgency=medium
+
+  * Updated master workflow files
+  * Updated master workflow files
+  * Updated master workflow files
+  * Updated master workflow files
+  * Catch error when adding/removing kernel modules (#40)
+
+ -- pi-top <deb-maintainers@pi-top.com>  Thu, 06 Feb 2025 19:50:52 +0000
+
 pt-display-port (1.4.1-1) bullseye; urgency=medium
 
   * Update dependencies to use raspi-utils-dt (#36)
