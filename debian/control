@@ -43,8 +43,8 @@ Depends: ${misc:Depends},
  usb-eth-gadget,
 # For determining if being run on a Pi 4
  raspi-config,
-# Dependencies based on distro (see rules file)
- ${customDeps:networking},
+# DHCP server for ptusb0
+ network-manager,
 Suggests: pt-display-port,
 Description: pi-top [4] USB Ethernet DHCP Server
  This package will install and configure a DHCP server to serve
