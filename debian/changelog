@@ -1,4 +1,4 @@
-pt-display-port (1.4.2-1) bookworm; urgency=medium
+pt-display-port (1.5.0-1) bookworm; urgency=medium
 
   * Allow running the changelog bump by hand
 
